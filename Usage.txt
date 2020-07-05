@@ -1,0 +1,40 @@
+Emulates printf C run-time function; evaluates RPN arithmetic expressions.
+
+    printf "format specification" {number [operator]|'c'|"string"|variable} ...
+
+The format specification may be a "string literal" or a Batch variable.
+Reference: https://msdn.microsoft.com/en-us/library/wc7014hz.aspx
+
+Numbers start with digit or minus sign. They are of floating-point type if
+include a decimal point or Exponent of ten greater 0; else, they are integers:
+64-bits wide if they are too large or ends in "ll"; 32-bits wide otherwise.
+
+Integer and float operations in Reverse Polish Notation (RPN) may be evaluated.
+Reference: https://en.wikipedia.org/wiki/Reverse_Polish_notation
+You may learn RPN at: http://www.hpmuseum.org/rpn.htm
+or in this extensive tutorial: http://hansklav.home.xs4all.nl/rpn/index.html
+
+
+Most integer operations works on 64-bits integers. One-operand operators:
+! BoolNot, ~ BitNot, _ ChngSign, $ Signum, ] Store, [ Recall, @ Dup, ? Random.
+Two-operands operators: + Add, - Subtract, * Multiply, / Quotient, % Remainder,
+< Min, > Max, << BitSHL, >> BitSHR, & BitAnd, | BitOr, ^ BitXor, # Exchange.
+For example: printf "3 plus 5 = %lli, 3 minus 5 = %lli\n"  3ll 5ll +  3ll 5ll -
+
+These five operators are special; they take/give  |  32B * 32B  = 64B Product
+different sized numbers, and an "u" letter added  |  64B / 32B  = 32B Quotient
+specify an unsigned operation. A divisor of 0 in  |  64B % 32B  = 32B Remainder
+/ or % return the high or low part of the number. |  64B <> 32B = 64B BitShift
+? Enter a random number between 0 and 32767 as a 32-Bits integer.
+Multiplication and division example; note the size of each number and format:
+printf "1234 * 5678 = %lli, 7006652 / 1234 = %i"  1234 5678 *  7006652ll 1234 /
+
+
+Floating-point functions operate float numbers *only*. One-operand functions:
+NOT, CHS, ABS, SIGN, INT, FRAC, INV, X^2, SQRT; SIN, COS, TAN, ASIN, ACOS, ATAN
+(in radians), to DEGrees, to RADians; LN, LOG, EXP, EXPT; DUP, STO.   RCL, PI.
+Two-operands functions: ADD, SUB, MUL, DIV, MOD, POW, MAX, MIN, XCHG.   CLST.
+For example: printf "The result of (4+5)/(6+7) is: %f"  4. 5. Add 6. 7. Add Div
+
+
+--> A more extensive description of printf.exe is given in:  printf.txt
